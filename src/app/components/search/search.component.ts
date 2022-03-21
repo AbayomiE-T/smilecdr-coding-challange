@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { NgForm } from '@angular/forms';
 
 @Component({
   selector: 'app-search',
@@ -6,10 +7,17 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./search.component.css']
 })
 export class SearchComponent implements OnInit {
+  public num: number;
+
+  @ViewChild('formData') private formData: NgForm;
 
   constructor() { }
 
   ngOnInit(): void {
+  }
+
+  public onSubmit(): void {
+    console.log(this.formData);
   }
 
 }

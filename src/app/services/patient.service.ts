@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { map, mergeMap, tap, toArray } from 'rxjs/operators'
+import { map, mergeMap, toArray } from 'rxjs/operators'
 
 const baseUrl = 'https://try.smilecdr.com/baseR4/Patient'
 
