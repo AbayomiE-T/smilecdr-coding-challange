@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 import { PatientService } from 'src/app/services/patient.service';
 
 @Component({
@@ -6,16 +8,22 @@ import { PatientService } from 'src/app/services/patient.service';
   templateUrl: './patient-list.component.html',
   styleUrls: ['./patient-list.component.css']
 })
-export class PatientListComponent implements OnInit {
+export class PatientListComponent implements OnInit, OnDestroy {
   public patients: any
+  private _onDestroy$ = new Subject();
 
   constructor(private patientService: PatientService) { }
 
   ngOnInit(): void {
-    this.patientService.getPatients()
+    this.patientService.listenForChangesInPatientData()
+      .pipe(takeUntil(this._onDestroy$))
       .subscribe((patients) => {
-        console.log(patients);
+        this.patients = patients;
       })
+  }
+
+  ngOnDestroy(): void {
+    this._onDestroy$.next();
   }
 
 }

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { map, mergeMap, toArray } from 'rxjs/operators'
 
 const baseUrl = 'https://try.smilecdr.com/baseR4/Patient'
@@ -10,16 +10,61 @@ const baseUrl = 'https://try.smilecdr.com/baseR4/Patient'
 })
 export class PatientService {
 
-  constructor(private http: HttpClient) { }
+  private _patients = new Subject();
 
-  public getPatients(): Observable<any> {
+  constructor(private http: HttpClient) {
+    this.initPatients();
+  }
 
-    return this.http.get(baseUrl)
+  private initPatients() {
+    this.getPatients();
+  }
+
+  public getPatients(): void {
+
+    this.http.get(baseUrl)
       .pipe(
         map(({ entry }: any) => entry),
         mergeMap((entries) => entries),
         map(({ resource }: any) => resource),
         toArray()
-      );
+      )
+      .subscribe((patientList) => {
+        this._patients.next(patientList);
+      });
+  }
+
+  public searchPatient(patient): void {
+    const { firstName, lastName } = patient;
+
+    const given = firstName ? `given=${firstName}` : '';
+    const family = lastName ? `family=${lastName}` : '';
+
+    let queryParams = '';
+
+    if (given && family) {
+      queryParams = `?${given}&${family}`;
+    }
+    else if (given) {
+      queryParams = `?${given}`;
+    }
+    else if (family) {
+      queryParams = `?${family}`;
+    }
+
+    this.http.get(baseUrl + queryParams)
+      .pipe(
+        map(({ entry }: any) => entry),
+        mergeMap((entries) => entries),
+        map(({ resource }: any) => resource),
+        toArray()
+      )
+      .subscribe((patientList) => {
+        this._patients.next(patientList);
+      });
+  }
+
+  public listenForChangesInPatientData(): Observable<any> {
+    return this._patients;
   }
 }
