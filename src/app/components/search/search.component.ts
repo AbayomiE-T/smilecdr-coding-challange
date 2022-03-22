@@ -23,4 +23,9 @@ export class SearchComponent implements OnInit {
     this.pateintService.searchPatient(patientData);
   }
 
+  public resetResults(): void {
+    this.formData.reset();
+    this.pateintService.getPatients();
+  }
+
 }

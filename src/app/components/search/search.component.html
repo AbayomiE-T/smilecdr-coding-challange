@@ -20,6 +20,9 @@
             <div class="form-group">
                 <button class="button" [disabled]="!formData.valid" type="submit">Search</button>
             </div>
+            <div class="form-group">
+                <button (click)="resetResults()" class="button" type="button">Reset</button>
+            </div>
         </div>
     </form>
 </section>
