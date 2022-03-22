@@ -10,7 +10,7 @@
             </tr>
             <tr *ngFor="let patient of patients">
                 <td>{{formatName(patient.name) | titlecase}}</td>
-                <td>{{patient.birthDate | date}}</td>
+                <td>{{(!!patient.birthDate ? (patient.birthDate | date) : 'N/A') }}</td>
                 <td>{{formatAddress(patient.address)}}</td>
                 <td>{{(!!patient.gender ? patient.gender: 'None') | titlecase}}</td>
                 <td>{{formatPhoneNumber(patient.telecom)}}</td>
