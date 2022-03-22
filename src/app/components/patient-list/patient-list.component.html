@@ -1,1 +1,20 @@
-<p>patient-list works!</p>
+<section class="patient-table">
+    <div class="patient-data">
+        <table *ngIf="!!patients && isSorted">
+            <tr class="header">
+                <th>Name</th>
+                <th>Birthdate</th>
+                <th>Address</th>
+                <th>Gender</th>
+                <th>Phone number(s)</th>
+            </tr>
+            <tr *ngFor="let patient of patients">
+                <td>{{formatName(patient.name) | titlecase}}</td>
+                <td>{{patient.birthDate | date}}</td>
+                <td>{{formatAddress(patient.address)}}</td>
+                <td>{{(!!patient.gender ? patient.gender: 'None') | titlecase}}</td>
+                <td>{{formatPhoneNumber(patient.telecom)}}</td>
+            </tr>
+        </table>
+    </div>
+</section>
