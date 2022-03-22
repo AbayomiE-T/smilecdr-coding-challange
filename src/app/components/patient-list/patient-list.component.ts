@@ -1,6 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { IPatient } from 'src/app/Interfaces/IPatient';
 import { PatientService } from 'src/app/services/patient.service';
 
 @Component({
@@ -9,7 +10,7 @@ import { PatientService } from 'src/app/services/patient.service';
   styleUrls: ['./patient-list.component.css']
 })
 export class PatientListComponent implements OnInit, OnDestroy {
-  public patients: any
+  public patients: IPatient[];
   public isSorted: boolean = false;
   private _onDestroy$ = new Subject();
 
@@ -18,7 +19,7 @@ export class PatientListComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.patientService.listenForChangesInPatientData()
       .pipe(takeUntil(this._onDestroy$))
-      .subscribe((patients) => {
+      .subscribe((patients: IPatient[]) => {
         this.patients = this.sortPatients(patients);
       })
   }
@@ -48,7 +49,7 @@ export class PatientListComponent implements OnInit, OnDestroy {
     return fullAddress;
   }
 
-  public formatPhoneNumber(telecom): string {
+  public formatPhoneNumber(telecom: any[]): string {
     let phoneNumber: string = 'N/A';
     if (!telecom) {
       return phoneNumber;
@@ -69,9 +70,9 @@ export class PatientListComponent implements OnInit, OnDestroy {
     return phoneNumber;
   }
 
-  private sortPatients(patients): any {
+  private sortPatients(patients: IPatient[]): IPatient[] {
 
-    const sortedPatients = [...patients].sort((patientA, patientB) => {
+    const sortedPatients: IPatient[] = [...patients].sort((patientA: IPatient, patientB: IPatient) => {
       const patientAlastName = patientA.name[0].family.toLowerCase();
       const patientBlastName = patientB.name[0].family.toLowerCase();
 

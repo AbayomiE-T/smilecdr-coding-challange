@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, Subject } from 'rxjs';
 import { map, mergeMap, toArray } from 'rxjs/operators'
+import { IPatient } from '../Interfaces/IPatient';
 
 const baseUrl = 'https://try.smilecdr.com/baseR4/Patient'
 
@@ -10,7 +11,7 @@ const baseUrl = 'https://try.smilecdr.com/baseR4/Patient'
 })
 export class PatientService {
 
-  private _patients = new Subject();
+  private _patients = new Subject<IPatient[]>();
 
   constructor(private http: HttpClient) {
     this.initPatients();
@@ -29,7 +30,7 @@ export class PatientService {
         map(({ resource }: any) => resource),
         toArray()
       )
-      .subscribe((patientList) => {
+      .subscribe((patientList: IPatient[]) => {
         this._patients.next(patientList);
       });
   }
@@ -64,7 +65,7 @@ export class PatientService {
       });
   }
 
-  public listenForChangesInPatientData(): Observable<any> {
+  public listenForChangesInPatientData(): Observable<IPatient[]> {
     return this._patients;
   }
 }
