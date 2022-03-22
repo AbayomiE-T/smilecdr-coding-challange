@@ -1,10 +1,10 @@
 # SmilecdrCodingChallenge
 
-This Angualr project was done as a coding challenge for Smile CDR.
+This Angular project was done as a coding challenge for Smile CDR.
 
 It queries patient data from their test server and outputs the information unto a table. 
 
-Pateints are sorted by name. Patients can also be searched for.
+Patients are sorted by name. Patients can also be searched for.
 
 ## Development server
 
