@@ -1,6 +1,6 @@
 # SmilecdrCodingChallenge
 
-This Angualr project was done as a coding challenge for Smile CDR.
+This Angular project was done as a coding challenge for Smile CDR.
 
 It queries patient data from their test server and outputs the information unto a table. 
 
